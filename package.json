@@ -1,0 +1,41 @@
+{
+  "name": "noub",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:nju33/noub.git",
+  "author": "nju33 <nju33.ki@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "yarn build",
+    "test": "jest",
+    "typedoc": "typedoc --theme minimal --out docs src/index.ts --ignoreCompilerErrors",
+    "docz.dev": "docz dev",
+    "docz.build": "docz build",
+    "build.main": "tsc -P tsconfig.main.json",
+    "build.module": "tsc -P tsconfig.module.json",
+    "build.iife": "rollup dist/module/index.js --format iife --name Name --file file.js",
+    "build.types": "tsc -P tsconfig.types.json --emitDeclarationOnly",
+    "build": "yarn build.main; yarn build.module; yarn build.iife; yarn build.types"
+  },
+  "devDependencies": {
+    "@nju33/tsconfig-main": "^0.0.6",
+    "@nju33/tsconfig-module": "^0.0.6",
+    "@nju33/tsconfig-react-main": "^0.0.6",
+    "@nju33/tsconfig-react-module": "^0.0.6",
+    "@nju33/tsconfig-react-types": "^0.0.6",
+    "@nju33/tsconfig-types": "^0.0.6",
+    "@types/jest": "^23.3.13",
+    "@types/redom": "^3.12.0",
+    "docz": "^0.13.7",
+    "docz-theme-default": "^0.13.7",
+    "jest": "^23.6.0",
+    "rollup": "^1.1.1",
+    "ts-jest": "^23.10.5",
+    "tslint": "^5.12.1",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.2.4"
+  },
+  "dependencies": {
+    "redom": "^3.17.1"
+  }
+}

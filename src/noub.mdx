@@ -1,0 +1,19 @@
+---
+name: Noub
+---
+
+# Noub
+
+import {Playground} from 'docz';
+import {Noub} from './noub';
+
+<div id="demo" />
+
+<Playground>
+  {() => {
+    setTimeout(() => {
+      Noub.create('demo', '');
+    }, 1000);
+    return null;
+  }}
+</Playground>
