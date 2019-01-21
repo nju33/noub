@@ -1,5 +1,5 @@
 declare namespace JSX {
   interface IntrinsicElements {
-    [index: string]: Partial<HTMLElement>;
+    [index: string]: any;
   }
 }

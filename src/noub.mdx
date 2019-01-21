@@ -7,12 +7,14 @@ name: Noub
 import {Playground} from 'docz';
 import {Noub} from './noub';
 
-<div id="demo" />
+<div id="init" />
 
 <Playground>
   {() => {
     setTimeout(() => {
-      Noub.create('demo', '');
+      Noub.create('init', {
+        browsers: ['Chrome 50']
+      });
     }, 1000);
     return null;
   }}

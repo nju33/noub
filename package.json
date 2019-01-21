@@ -36,6 +36,8 @@
     "typescript": "^3.2.4"
   },
   "dependencies": {
-    "redom": "^3.17.1"
+    "browserslist-useragent": "^3.0.0",
+    "redom": "^3.17.1",
+    "yamlparser": "^0.0.2"
   }
 }
