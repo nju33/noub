@@ -3,6 +3,7 @@
   "include": ["src/main.ts"],
   "exclude": ["src/__tests__/**/*", "src/**/*test*", "src/dev.ts"],
   "compilerOptions": {
-    "outDir": "dist/main"
+    "outDir": "dist/main",
+    "noImplicitAny": false
   }
 }

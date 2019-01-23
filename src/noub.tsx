@@ -13,16 +13,124 @@ export interface NoubOptions {
 }
 
 enum Color {
-  Usubeni = '#e87a90',
-  Kurenai = '#cb1b45'
+  Kurenai = '#cb1b45',
+  Hover = '#61210f',
+  ChromeDownloadLink = '#3367d6'
 }
 
+const STYLE_ID = 'NOUB_STYLE_CSS';
+
 export class Noub implements RedomComponent {
+  static insertStyle() {
+    if (
+      !(
+        typeof document !== 'undefined' &&
+        document.getElementById(STYLE_ID) === null
+      )
+    ) {
+      return;
+    }
+
+    const style = document.createElement('style');
+    style.id = STYLE_ID;
+
+    style.innerHTML = `
+.noub-Alert_Box {
+  margin-bottom: 1em;
+}
+
+.noub-Alert_Message {
+  background: ${Color.Kurenai};
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: .3em 1em;
+  color: #e8e8e8;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.noub-Alert_IconImage {
+  height: 18px;
+  margin: 0 8px 0 3px;
+  position: relative;
+  top: 2px;
+}
+
+.noub-Alert_Strong {
+  color: #fff;
+}
+
+.noub-Alert_Link {
+  color: #000;
+  fontWeight: bold;
+  transition: .2s;
+}
+
+.noub-Alert_Link:hover {
+  color: ${Color.Hover};
+}
+
+.noub-Alert_Item {
+  display: block;
+  text-align: center;
+  width: 100%;
+  background-color: #e8e8e8;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIxIDEgMTc2IDE3NiI+PGRlZnM+PGNpcmNsZSBpZD0iYSIgY3g9Ijk2IiBjeT0iOTYiIHI9Ijg4Ii8+PC9kZWZzPjxjbGlwUGF0aCBpZD0iYiI+PHVzZSB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBvdmVyZmxvdz0idmlzaWJsZSIgeGxpbms6aHJlZj0iI2EiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNiKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTcgLTcpIj48cGF0aCBmaWxsPSIjZGI0NDM3IiBkPSJNMjIgOHYxMDhoMzlsMzUtNjBoODhWOHoiLz48bGluZWFyR3JhZGllbnQgaWQ9ImMiIHgxPSIyOSIgeDI9IjgyIiB5MT0iNzUiIHkyPSI0NCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI0E1MjcxNCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0E1MjcxNCIgc3RvcC1vcGFjaXR5PSIwIi8+PC9saW5lYXJHcmFkaWVudD48cGF0aCBmaWxsPSJ1cmwoI2MpIiBkPSJNMjIgOHYxMDhoMzlsMzUtNjBoODhWOHoiLz48L2c+PHBhdGggZmlsbD0ibm9uZSIgZD0iTTYyIDExNkwyMiA0N3YxbDM5IDY4eiIgY2xpcC1wYXRoPSJ1cmwoI2IpIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtNyAtNykiLz48ZyBjbGlwLXBhdGg9InVybCgjYikiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC03IC03KSI+PHBhdGggZmlsbD0iIzBmOWQ1OCIgZD0iTTggMTg0aDg0bDM5LTM5di0yOUg2MUw4IDI0eiIvPjxsaW5lYXJHcmFkaWVudCBpZD0iZCIgeDE9IjExMSIgeDI9IjUzIiB5MT0iMTY1IiB5Mj0iMTMwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMDU1NTI0IiBzdG9wLW9wYWNpdHk9IjAiLz48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMwNTU1MjQiIHN0b3Atb3BhY2l0eT0iMCIvPjwvbGluZWFyR3JhZGllbnQ+PHBhdGggZmlsbD0idXJsKCNkKSIgZD0iTTggMTg0aDg0bDM5LTM5di0yOUg2MUw4IDI0eiIvPjwvZz48cGF0aCBmaWxsPSJub25lIiBkPSJNMTMwIDExN2gtMWwtMzggNjdoMWwzOC02N3oiIGNsaXAtcGF0aD0idXJsKCNiKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTcgLTcpIi8+PGcgY2xpcC1wYXRoPSJ1cmwoI2IpIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtNyAtNykiPjxkZWZzPjxwYXRoIGlkPSJlIiBkPSJNOCAxODRoODRsMzktMzl2LTI5SDYxTDggMjR6Ii8+PC9kZWZzPjxjbGlwUGF0aCBpZD0iZiI+PHVzZSB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBvdmVyZmxvdz0idmlzaWJsZSIgeGxpbms6aHJlZj0iI2UiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNmKSI+PHBhdGggZmlsbD0iI2ZmY2Q0MCIgZD0iTTk2IDU2bDM1IDYwLTM5IDY4aDkyVjU2eiIvPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjEyMiIgeDI9IjEzNyIgeTE9IjUwIiB5Mj0iMTE0IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRUE2MTAwIiBzdG9wLW9wYWNpdHk9IjAiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFQTYxMDAiIHN0b3Atb3BhY2l0eT0iMCIvPjwvbGluZWFyR3JhZGllbnQ+PHBhdGggZmlsbD0idXJsKCNnKSIgZD0iTTk2IDU2bDM1IDYwLTM5IDY4aDkyVjU2eiIvPjwvZz48L2c+PGcgY2xpcC1wYXRoPSJ1cmwoI2IpIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtNyAtNykiPjxwYXRoIGZpbGw9IiNmZmNkNDAiIGQ9Ik05NiA1NmwzNSA2MC0zOSA2OGg5MlY1NnoiLz48cGF0aCBmaWxsPSJ1cmwoI2cpIiBkPSJNOTYgNTZsMzUgNjAtMzkgNjhoOTJWNTZ6Ii8+PC9nPjxnIGNsaXAtcGF0aD0idXJsKCNiKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTcgLTcpIj48ZGVmcz48cGF0aCBpZD0iaCIgZD0iTTk2IDU2bDM1IDYwLTM5IDY4aDkyVjU2eiIvPjwvZGVmcz48Y2xpcFBhdGggaWQ9ImkiPjx1c2Ugd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgb3ZlcmZsb3c9InZpc2libGUiIHhsaW5rOmhyZWY9IiNoIi8+PC9jbGlwUGF0aD48ZyBjbGlwLXBhdGg9InVybCgjaSkiPjxwYXRoIGZpbGw9IiNkYjQ0MzciIGQ9Ik0yMiA4djEwOGgzOWwzNS02MGg4OFY4eiIvPjxwYXRoIGZpbGw9InVybCgjYykiIGQ9Ik0yMiA4djEwOGgzOWwzNS02MGg4OFY4eiIvPjwvZz48L2c+PHJhZGlhbEdyYWRpZW50IGlkPSJqIiBjeD0iNjY4IiBjeT0iNTYiIHI9Ijg0IiBncmFkaWVudFRyYW5zZm9ybT0idHJhbnNsYXRlKC01NzYpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjM0UyNzIzIiBzdG9wLW9wYWNpdHk9IjAiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMzRTI3MjMiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+PHBhdGggZmlsbD0idXJsKCNqKSIgZD0iTTk2IDU2djIxbDc4LTIxeiIgY2xpcC1wYXRoPSJ1cmwoI2IpIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtNyAtNykiLz48ZyBjbGlwLXBhdGg9InVybCgjYikiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC03IC03KSI+PGRlZnM+PHBhdGggaWQ9ImsiIGQ9Ik0yMiA4djQwbDM5IDY4IDM1LTYwaDg4Vjh6Ii8+PC9kZWZzPjxjbGlwUGF0aCBpZD0ibCI+PHVzZSB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBvdmVyZmxvdz0idmlzaWJsZSIgeGxpbms6aHJlZj0iI2siLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNsKSI+PHBhdGggZmlsbD0iIzBmOWQ1OCIgZD0iTTggMTg0aDg0bDM5LTM5di0yOUg2MUw4IDI0eiIvPjxwYXRoIGZpbGw9InVybCgjZCkiIGQ9Ik04IDE4NGg4NGwzOS0zOXYtMjlINjFMOCAyNHoiLz48L2c+PC9nPjxyYWRpYWxHcmFkaWVudCBpZD0ibSIgY3g9IjU5OCIgY3k9IjQ5IiByPSI3OCIgZ3JhZGllbnRUcmFuc2Zvcm09InRyYW5zbGF0ZSgtNTc2KSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzNFMjcyMyIgc3RvcC1vcGFjaXR5PSIwIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjM0UyNzIzIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50PjxwYXRoIGZpbGw9InVybCgjbSkiIGQ9Ik0yMiA0OGw1NyA1OC0xOCAxMHoiIGNsaXAtcGF0aD0idXJsKCNiKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTcgLTcpIi8+PHJhZGlhbEdyYWRpZW50IGlkPSJuIiBjeD0iNjcyIiBjeT0iOTYiIHI9Ijg4IiBncmFkaWVudFRyYW5zZm9ybT0idHJhbnNsYXRlKC01NzYpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMjYzMjM4IiBzdG9wLW9wYWNpdHk9IjAiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMyNjMyMzgiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+PHBhdGggZmlsbD0idXJsKCNuKSIgZD0iTTkyIDE4NGwyMS03OCAxOCAxMHoiIGNsaXAtcGF0aD0idXJsKCNiKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTcgLTcpIi8+PGcgY2xpcC1wYXRoPSJ1cmwoI2IpIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtNyAtNykiPjxjaXJjbGUgY3g9Ijk2IiBjeT0iOTYiIHI9IjQwIiBmaWxsPSIjZjFmMWYxIi8+PGNpcmNsZSBjeD0iOTYiIGN5PSI5NiIgcj0iMzIiIGZpbGw9IiM0Mjg1ZjQiLz48L2c+PGcgZmlsbD0ibm9uZSIgY2xpcC1wYXRoPSJ1cmwoI2IpIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtNyAtNykiPjxwYXRoIGQ9Ik05NiA1NWMtMjIgMC00MCAxOC00MCA0MHYxYzAtMjIgMTgtNDAgNDAtNDBoODh2LTFIOTZ6Ii8+PHBhdGggZD0iTTEzMSAxMTZhNDAgNDAgMCAwIDEtNzAgMEw4IDI0djFsNTMgOTJhNDAgNDAgMCAwIDAgNzAgMHYtMXoiLz48cGF0aCBkPSJNMTMxIDExN2E0MCA0MCAwIDAgMCA0LTMyIDQwIDQwIDAgMCAxLTQgMzFsLTM5IDY4aDFsMzgtNjd6Ii8+PC9nPjxnIGZpbGw9Im5vbmUiIGNsaXAtcGF0aD0idXJsKCNiKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTcgLTcpIj48cGF0aCBkPSJNOTYgOWM0OCAwIDg4IDM5IDg4IDg4di0xQTg4IDg4IDAgMCAwIDggOTZ2MUM4IDQ4IDQ4IDkgOTYgOXoiLz48cGF0aCBkPSJNOTYgMTgzYzQ4IDAgODgtMzkgODgtODdBODggODggMCAwIDEgOCA5NmMwIDQ4IDQwIDg3IDg4IDg3eiIvPjwvZz48cmFkaWFsR3JhZGllbnQgaWQ9Im8iIGN4PSIzNCIgY3k9IjMyIiByPSIxNzciIGdyYWRpZW50VHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTcgLTcpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9IjAiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmZmYiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+PGNpcmNsZSBjeD0iODkiIGN5PSI4OSIgcj0iODgiIGZpbGw9InVybCgjbykiLz48L3N2Zz4=);
+  background-repeat: no-repeat;
+  background-position: 100px 40px;
+  background-size: 100px 100px;
+  font-family: Segoe UI,SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  -webkit-box-sizing: border-box;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  padding: 150px 0 40px;
+}
+
+.noub-Alert_Item:after {
+  content: '';
+  display: block;
+  clear: both;
+  height: 0;  
+  visibility: hidden;
+}
+
+.noub-Alert_LeftItem {
+  float: left;
+  width: 300px;
+}
+
+.noub-Alert_RightItem {
+  float: left;
+  width: calc(100% - 300px - 100px);
+  margin-top: -75px;
+}
+
+.noub-Alert_DownloadLink {
+  display: inline-block;
+  margin-top: 10px;
+  color: inherit;
+  background: ${Color.ChromeDownloadLink};
+  border-radius: 2px;
+  padding: .3em 1em;
+  color: #e8e8e8;
+  text-decoration: none;
+}
+
+.noub-Alert_DownloadLink:hover {
+  background: #4285f4;
+}
+    `;
+
+    document.head.appendChild(style);
+  }
+
   static init(elementId: string, opts: NoubOptions): void | Noub {
     const targetElement = document.getElementById(elementId);
     if (targetElement === null) {
       throw TypeError('対象の要素が存在しません');
     }
+
+    Noub.insertStyle();
 
     const browserslistOpts: any = {};
     if (Array.isArray(opts.browsers)) {
@@ -41,93 +149,51 @@ export class Noub implements RedomComponent {
   }
 
   el: HTMLElement;
-  chromeLink: HTMLElement;
+  // chromeLink: HTMLElement;
 
   getBrowserName() {
     const browserVersion = resolveUserAgent(navigator.userAgent);
     return `${browserVersion.family}(${browserVersion.version})`;
   }
 
-  onMouseenter = () => {
-    this.chromeLink.style.color = Color.Kurenai;
-  }
-
-  onMouseleave = () => {
-    this.chromeLink.style.color = '#000';
-  }
-
-  onmount() {
-    this.chromeLink.addEventListener('mouseenter', this.onMouseenter);
-    this.chromeLink.addEventListener('mouseleave', this.onMouseleave);
-  }
-
-  onunmount() {
-    this.chromeLink.removeEventListener('mouseenter', this.onMouseenter);
-    this.chromeLink.removeEventListener('mouseleave', this.onMouseleave);
-  }
-
   constructor() {
-    this.chromeLink = (
-      <a
-        href="https://www.google.com/intl/ja_ALL/chrome/"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          color: '#000',
-          fontWeight: 'bold',
-          transition: '.2s'
-        }}
-      >
-        Google Chrome
-      </a>
-    );
-
-
-
     // el is not defined
     el;
     this.el = (
-      <div
-        role="alert"
-        style={{
-          background: Color.Usubeni,
-          border: `1px solid ${Color.Kurenai}`,
-          borderRadius: '3px',
-          boxSizing: 'border-box',
-          padding: '0 1em',
-          color: '#292929',
-          marginBottom: '1em'
-        }}
-      >
-        <p>
-          お使いのブラウザ
-          <strong style={{color: '#000'}}>「{this.getBrowserName()}」</strong>
-          はサポート対象外です。
-          <br />
-          <img
-            src="data:image/png;base64,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"
-            alt="Chromeアイコン"
-            style={{
-              height: '18px',
-              margin: '0 8px 0 3px',
-              position: 'relative',
-              top: '2px'
-            }}
-          />
-          <a
-            href="https://www.google.com/intl/ja_ALL/chrome/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: '#000',
-              fontWeight: 'bold',
-              transition: '.2s'
-            }}
-          >
-            Google Chrome
+      <div role="alert" class="noub-Alert_Box">
+        <div role="alert" class="noub-Alert_Message">
+          <p>
+            お使いのブラウザ
+            <strong class="noub-Alert_Strong">
+              「{this.getBrowserName()}」
+            </strong>
+            はサポート対象外です。
+            <br />
+            以下のモダンブラウザの最新バージョンをご利用してください。
+          </p>
+        </div>
+
+        <div class="noub-Alert_List">
+          <a class="noub-Alert_Item">
+            <div class="noub-Alert_LeftItem">Google Chrome</div>
+            <div class="noub-Alert_RightItem">
+              <span style="display:inline-block">最新のウェブ環境</span>
+              に対応した
+              <span style="display:inline-block">高速で安全な無料</span>の
+              <span style="display:inline-block">ウェブブラウザ</span>
+              <div>
+                <a
+                  href="https://www.google.com/intl/ja_ALL/chrome/"
+                  class="noub-Alert_DownloadLink"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  リンク先からダウンロード
+                </a>
+              </div>
+            </div>
           </a>
-          などのモダンブラウザの最新バージョンをご利用してください。
-        </p>
+        </div>
       </div>
     );
   }

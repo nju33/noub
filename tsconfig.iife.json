@@ -3,6 +3,7 @@
   "include": ["src/module.ts"],
   "exclude": ["src/__tests__/**/*", "src/**/*test*", "src/dev.ts"],
   "compilerOptions": {
-    "outDir": "iife-dist"
+    "outDir": "iife-dist",
+    "noImplicitAny": false
   }
 }
